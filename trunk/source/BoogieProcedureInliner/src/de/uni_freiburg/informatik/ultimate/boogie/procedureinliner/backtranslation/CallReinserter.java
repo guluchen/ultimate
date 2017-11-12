@@ -28,8 +28,10 @@ package de.uni_freiburg.informatik.ultimate.boogie.procedureinliner.backtranslat
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +39,6 @@ import de.uni_freiburg.informatik.ultimate.boogie.ast.BoogieASTNode;
 import de.uni_freiburg.informatik.ultimate.boogie.ast.CallStatement;
 import de.uni_freiburg.informatik.ultimate.boogie.output.BoogiePrettyPrinter;
 import de.uni_freiburg.informatik.ultimate.boogie.procedureinliner.BackTransValue;
-import de.uni_freiburg.informatik.ultimate.boogie.procedureinliner.InlineVersionTransformer.InlinedCallAnnotation;
 import de.uni_freiburg.informatik.ultimate.core.model.results.IRelevanceInformation;
 import de.uni_freiburg.informatik.ultimate.core.model.translation.AtomicTraceElement;
 import de.uni_freiburg.informatik.ultimate.core.model.translation.AtomicTraceElement.StepInfo;
@@ -51,7 +52,7 @@ import de.uni_freiburg.informatik.ultimate.core.model.translation.AtomicTraceEle
 public class CallReinserter {
 
 	/** The processing takes place, right after an non-inlined call. */
-	private final boolean mAfterNonInlinedCall = false;
+	private boolean mAfterNonInlinedCall = false;
 
 	/**
 	 * Last BackTransValues for all trace sections with the same inline entry point.
@@ -80,72 +81,59 @@ public class CallReinserter {
 		final boolean nonInlinedReturn = curTraceElem.hasStepInfo(StepInfo.PROC_RETURN);
 		assert !(nonInlinedCall && nonInlinedReturn) : "Simultaneous call and return: " + curTraceElem;
 
-		// TODO: It would be much cleaner to rely completely on the InlinedCallAnnotations to make the backtranslation.
-		// This is more of a quick fix.
-		final InlinedCallAnnotation callAnnot = InlinedCallAnnotation.getAnnotation(curTraceElem.getTraceElement());
-		if (callAnnot == null) {
-			return recoveredCalls;
+		if (nonInlinedReturn && !mPrevBackTranslations.isEmpty()) {
+			final BackTransValue prevBackTrans = mPrevBackTranslations.peek();
+			if (prevBackTrans != curBackTrans) {
+				mPrevBackTranslations.pop();
+				for (final CallStatement callStmt : prevBackTrans.getOriginalCallStack()) {
+					recoveredCalls.add(makeAtomicReturn(callStmt, null));
+				}
+			}
+			// there were no inlined nodes inside the called procedure
+			mAfterNonInlinedCall = false;
 		}
 
-		if (callAnnot.isReturn()) {
-			recoveredCalls.add(makeAtomicReturn(callAnnot.getCallStatement(), relevanceInfoForInlinedReturn));
+		if (curBackTrans == null) {
+			// goto end
+		} else if (mPrevBackTranslations.isEmpty() || mAfterNonInlinedCall) {
+			final Iterator<CallStatement> stackRevIter = curBackTrans.getOriginalCallStack().descendingIterator();
+			while (stackRevIter.hasNext()) {
+				recoveredCalls.add(makeAtomicCall(stackRevIter.next()));
+			}
 		} else {
-			recoveredCalls.add(makeAtomicCall(callAnnot.getCallStatement()));
+			final BackTransValue prevBackTrans = mPrevBackTranslations.pop();
+			final Deque<CallStatement> prevStack = prevBackTrans.getOriginalCallStack();
+			final Deque<CallStatement> curStack = curBackTrans.getOriginalCallStack();
+			if (prevStack != curStack) {
+				// from stack bottom to top
+				final Iterator<CallStatement> prevStackRevIter = prevStack.descendingIterator();
+				final Iterator<CallStatement> curStackRevIter = curStack.descendingIterator();
+				final List<AtomicTraceElement<BoogieASTNode>> returns = new ArrayList<>();
+				final List<AtomicTraceElement<BoogieASTNode>> calls = new ArrayList<>();
+				while (prevStackRevIter.hasNext() && curStackRevIter.hasNext()) {
+					final CallStatement prevCs = prevStackRevIter.next();
+					final CallStatement curCs = curStackRevIter.next();
+					if (prevCs != curCs) {
+						returns.add(makeAtomicReturn(prevCs, null));
+						calls.add(makeAtomicCall(curCs));
+					}
+				}
+				while (prevStackRevIter.hasNext()) {
+					returns.add(makeAtomicReturn(prevStackRevIter.next(), relevanceInfoForInlinedReturn));
+				}
+				while (curStackRevIter.hasNext()) {
+					calls.add(makeAtomicCall(curStackRevIter.next()));
+				}
+				Collections.reverse(returns);
+				recoveredCalls.addAll(returns);
+				recoveredCalls.addAll(calls);
+			}
 		}
-		//
-		// if (nonInlinedReturn && !mPrevBackTranslations.isEmpty()) {
-		// final BackTransValue prevBackTrans = mPrevBackTranslations.peek();
-		// if (prevBackTrans != curBackTrans) {
-		// mPrevBackTranslations.pop();
-		// for (final CallStatement callStmt : prevBackTrans.getOriginalCallStack()) {
-		// recoveredCalls.add(makeAtomicReturn(callStmt, null));
-		// }
-		// }
-		// // there were no inlined nodes inside the called procedure
-		// mAfterNonInlinedCall = false;
-		// }
-		//
-		// if (curBackTrans == null) {
-		// // goto end
-		// } else if (mPrevBackTranslations.isEmpty() || mAfterNonInlinedCall) {
-		// final Iterator<CallStatement> stackRevIter = curBackTrans.getOriginalCallStack().descendingIterator();
-		// while (stackRevIter.hasNext()) {
-		// recoveredCalls.add(makeAtomicCall(stackRevIter.next()));
-		// }
-		// } else {
-		// final BackTransValue prevBackTrans = mPrevBackTranslations.pop();
-		// final Deque<CallStatement> prevStack = prevBackTrans.getOriginalCallStack();
-		// final Deque<CallStatement> curStack = curBackTrans.getOriginalCallStack();
-		// if (prevStack != curStack) {
-		// // from stack bottom to top
-		// final Iterator<CallStatement> prevStackRevIter = prevStack.descendingIterator();
-		// final Iterator<CallStatement> curStackRevIter = curStack.descendingIterator();
-		// final List<AtomicTraceElement<BoogieASTNode>> returns = new ArrayList<>();
-		// final List<AtomicTraceElement<BoogieASTNode>> calls = new ArrayList<>();
-		// while (prevStackRevIter.hasNext() && curStackRevIter.hasNext()) {
-		// final CallStatement prevCs = prevStackRevIter.next();
-		// final CallStatement curCs = curStackRevIter.next();
-		// if (prevCs != curCs) {
-		// returns.add(makeAtomicReturn(prevCs, null));
-		// calls.add(makeAtomicCall(curCs));
-		// }
-		// }
-		// while (prevStackRevIter.hasNext()) {
-		// returns.add(makeAtomicReturn(prevStackRevIter.next(), relevanceInfoForInlinedReturn));
-		// }
-		// while (curStackRevIter.hasNext()) {
-		// calls.add(makeAtomicCall(curStackRevIter.next()));
-		// }
-		// Collections.reverse(returns);
-		// recoveredCalls.addAll(returns);
-		// recoveredCalls.addAll(calls);
-		// }
-		// }
-		//
-		// if (curBackTrans != null) {
-		// mPrevBackTranslations.push(curBackTrans);
-		// }
-		// mAfterNonInlinedCall = nonInlinedCall;
+
+		if (curBackTrans != null) {
+			mPrevBackTranslations.push(curBackTrans);
+		}
+		mAfterNonInlinedCall = nonInlinedCall;
 		return recoveredCalls;
 	}
 

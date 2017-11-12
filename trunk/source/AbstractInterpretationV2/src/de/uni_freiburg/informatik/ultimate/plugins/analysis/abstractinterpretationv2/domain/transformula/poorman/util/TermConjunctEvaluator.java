@@ -47,7 +47,6 @@ import de.uni_freiburg.informatik.ultimate.logic.Term;
 import de.uni_freiburg.informatik.ultimate.logic.TermVariable;
 import de.uni_freiburg.informatik.ultimate.modelcheckerutils.absint.IAbstractDomain;
 import de.uni_freiburg.informatik.ultimate.modelcheckerutils.absint.IAbstractState;
-import de.uni_freiburg.informatik.ultimate.modelcheckerutils.absint.IAbstractState.SubsetResult;
 import de.uni_freiburg.informatik.ultimate.modelcheckerutils.boogie.MappedTerm2Expression;
 import de.uni_freiburg.informatik.ultimate.modelcheckerutils.cfg.structure.IcfgEdge;
 import de.uni_freiburg.informatik.ultimate.plugins.analysis.abstractinterpretationv2.domain.transformula.poorman.PoormanAbstractState;
@@ -131,9 +130,19 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 					nonAbstractables.add(param);
 				}
 			}
-			final List<STATE> preStatesAfterAbstractables =
-					applyPost(prestates, abstractables.toArray(new Term[abstractables.size()]));
-			return computeFixpoint(nonAbstractables, preStatesAfterAbstractables);
+			List<STATE> preState = prestates;
+			if (!abstractables.isEmpty()) {
+				preState = applyPost(preState, abstractables.toArray(new Term[abstractables.size()]));
+			}
+
+			// Compute post for non-abstractables
+			// TODO: Order them! for example in intervals, x <= 0 && z == y && y == x has two different orderings of
+			// which one is more precise than the other.
+			List<STATE> returnStates = preState;
+			for (final Term nonAbstractable : nonAbstractables) {
+				returnStates = visit(nonAbstractable, returnStates);
+			}
+			return returnStates;
 		} else if (functionName.equals("or")) {
 			final List<STATE> returnStates = new ArrayList<>();
 			for (final Term param : term.getParameters()) {
@@ -141,16 +150,13 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 			}
 			return returnStates;
 		} else if (functionName.equals("not")) {
-			assert term.getParameters().length == 1;
+			if (term.getParameters().length != 1) {
+				throw new UnsupportedOperationException("Not-Term has more than one paramter.");
+			}
 			final Term param = term.getParameters()[0];
 			if (param instanceof ApplicationTerm) {
 				final ApplicationTerm appParam = (ApplicationTerm) param;
 				final Term invertedTerm = negateTerm(appParam);
-				if (invertedTerm == appParam) {
-					// If the term is something like (not (= x y)), compute the post right away and let the domain deal
-					// with the negation.
-					return applyPost(prestates, term);
-				}
 				return visit(invertedTerm, prestates);
 			}
 		}
@@ -158,36 +164,7 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 		return applyPost(prestates, term);
 	}
 
-	private List<STATE> computeFixpoint(final List<Term> nonAbstractables, final List<STATE> preStates) {
-		if (nonAbstractables.isEmpty()) {
-			return preStates;
-		}
-
-		List<STATE> pres = preStates;
-		while (true) {
-			// Compute everything for the prestate
-			List<STATE> abstractableResult = pres;
-			for (final Term nonAbstractable : nonAbstractables) {
-				abstractableResult = visit(nonAbstractable, abstractableResult);
-				if (abstractableResult.stream().allMatch(state -> state.isBottom())) {
-					return abstractableResult;
-				}
-			}
-
-			final List<STATE> previousPres = pres;
-			// If for all computed post states there is one state in the prestates which covers the post state, we have
-			// found a fixpoint and may return.
-			if (abstractableResult.stream().allMatch(
-					result -> previousPres.stream().anyMatch(prev -> result.isSubsetOf(prev) != SubsetResult.NONE))) {
-				return abstractableResult;
-			}
-			pres = abstractableResult;
-		}
-	}
-
 	private Term negateTerm(final ApplicationTerm term) {
-		// TODO: Use TermTransformer
-
 		final String function = term.getFunction().getName();
 		String newFunction;
 
@@ -213,12 +190,6 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 		case "not":
 			assert term.getParameters().length == 1;
 			return term.getParameters()[0];
-		case "=":
-			return term;
-		case "select":
-			return mScript.term("=", term, mScript.term("false"));
-		case "store":
-			// TODO: Handle this as well, maybe.
 		default:
 			throw new UnsupportedOperationException("Unhandled function for negation: " + function);
 		}
@@ -230,22 +201,11 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 	}
 
 	private List<STATE> applyPost(final List<STATE> preStates, final Term... term) {
-		if (term.length == 0) {
-			return preStates;
-		}
 
 		final List<STATE> returnStates = new ArrayList<>();
 
 		final AssumeStatement[] assume = AssumptionBuilder.constructBoogieAssumeStatement(mLogger,
 				mVariableRetainmentSet, mAlternateOldNames, mMappedTerm2Expression, term);
-
-		mLogger.debug("PreStates: " + preStates);
-
-		// If all preStates are bottom, we just return them and do nothing.
-		if (preStates.stream().allMatch(state -> state.isBottom())) {
-			mLogger.debug("PostStates: " + preStates);
-			return preStates;
-		}
 
 		for (final STATE state : preStates) {
 			// Skip bottom states
@@ -256,7 +216,10 @@ public class TermConjunctEvaluator<STATE extends IAbstractState<STATE>> {
 			returnStates.addAll(mBackingDomain.getPostOperator().apply(state, codeBlock));
 		}
 
-		mLogger.debug("PostStates: " + returnStates);
+		// If returnStates is empty, that means that all preStates were bottom. Therefore, we just return them.
+		if (returnStates.isEmpty()) {
+			return preStates;
+		}
 
 		return returnStates;
 	}

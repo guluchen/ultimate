@@ -226,6 +226,13 @@ public class GeneralizedNestedWordAutomatonReachableStatesAntichain<LETTER, STAT
 		return this;
 	}
 	
+	@Override
+	protected void removeStates(STATE state) {
+		mStates.remove(state);
+		mInitialStates.remove(state);
+		mFinalStates.remove(state);
+	}
+	
 	/**
 	 * We use Antichain to reduce some states in reachability analysis
 	 * */
@@ -264,7 +271,7 @@ public class GeneralizedNestedWordAutomatonReachableStatesAntichain<LETTER, STAT
                 }
             }
 			
-			mIsEmpty = is_nemp;
+			mIsEmpty = !is_nemp;
 			Set<STATE> states = new HashSet<>();
 			states.addAll(mStates.keySet());
 //			System.err.println
@@ -332,7 +339,14 @@ public class GeneralizedNestedWordAutomatonReachableStatesAntichain<LETTER, STAT
 				mInitialStates.remove(st);
 				mFinalStates.remove(st);
 			}
+			asccClear();
 		}
+		
+		private void asccClear() {
+        	mDfsNum.clear();
+        	mQPrime.clear();
+        	mEmp.clear();
+        }
 
 		private void computeInitialStates() {
 			for (final STATE fst : mFstOperand.getInitialStates()) {
@@ -650,6 +664,10 @@ public class GeneralizedNestedWordAutomatonReachableStatesAntichain<LETTER, STAT
 	    
 	    public Antichain() {
 	    	mResStateMap = new HashMap<>();
+	    }
+	    
+	    void clear() {
+	    	mResStateMap.clear();
 	    }
 	    
 	    Set<STATE> getStates() {
