@@ -140,6 +140,77 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
 	};
 	
 
+	// @formatter:off
+	private static final DirectoryFileEndingsPair[] mDirectorySVCompNoCallReturn = {
+//		/***** Category 1. ReachSafety *****/
+//		/*** Subcategory    ReachSafety-Arrays ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/array-examples/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/reducercommutativity/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//
+//		/*** Subcategory   ReachSafety-BitVectors ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/bitvector/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/bitvector-regression/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/bitvector-loops/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//			
+//		/*** Subcategory   ReachSafety-ControlFlow ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ntdrivers-simplified/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ssh-simplified/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/locks/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ssh/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		
+//		/*** Subcategory   ReachSafety-ReachSafety-ECA ***/
+//		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/eca-rers2012/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/psyco/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		
+//		/*** Subcategory   ReachSafety-Heap ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/heap-manipulation/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/list-properties/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ldv-regression/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		// TODO: add ldv-regression/test[0-9][0-9]_false-unreach-call*.c ldv-regression/test[0-9][0-9]_true-unreach-call*.c
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ddv-machzwd/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/forester-heap/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/list-ext-properties/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/list-ext2-properties/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		
+//		/*** Subcategory    ReachSafety-Floats ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/floats-cdfpl/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/floats-cbmc-regression/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/float-benchs/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/floats-esbmc-regression/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//
+//		/*** Subcategory   ReachSafety-Loops ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loops/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loop-acceleration/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loop-invgen/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loop-lit/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loop-new/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/loop-industry-pattern/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		
+//		
+//		
+//		/***** Category 2. MemSafety *****/
+//		/*** Subcategory    MemSafety-Arrays ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/array-memsafety/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/array-examples/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/reducercommutativity/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//
+//		/*** Subcategory   MemSafety-Heap ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/memsafety/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/list-ext-properties/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/memory-alloca/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ldv-memsafety/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ldv-memsafety/", new String[]{ ALL_C }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ldv-memsafety-bitfields/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/bitvector-loops/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+//		
+//		/*** Subcategory    MemSafety-LinkedLists ***/
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/heap-manipulation/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/forester-heap/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/list-properties/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+		new DirectoryFileEndingsPair("examples/svcomp-no-call-return/ddv-machzwd/", new String[]{ ALL_I }, FILE_OFFSET,  FILES_PER_DIR_LIMIT),
+
+	};
+
 	private static final String[] mCurrentBugs = {};
 
 	/**
@@ -164,17 +235,28 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
 //			"buchiAutomizer/ncsb/ORIGINAL-SAVE-AUT.epf",
 //			"buchiAutomizer/ncsb/INTSET_LAZY2-SAVE-AUT.epf",
 //			"buchiAutomizer/ncsb/INTSET_LAZY3-SAVE-AUT.epf",
-			"buchiAutomizer/ncsb/INTSET_LAZY2.epf",
-			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY2.epf",
-			"buchiAutomizer/ncsb/INTSET_LAZY3.epf",
-			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY3.epf",
-			"buchiAutomizer/ncsb/ORIGINAL.epf",
-			"buchiAutomizer/ncsb/SUNFLOWER-ORIGINAL.epf",
+//			"buchiAutomizer/ncsb/INTSET_LAZY2.epf",
+//			"buchiAutomizer/ncsb/INTSET_LAZY3.epf",
+//			"buchiAutomizer/ncsb/INTSET.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY2.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY3.epf",
+			"buchiAutomizer/ncsb/INTSET_GBA.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_GBA.epf",
+			"buchiAutomizer/ncsb/INTSET_GBA_ANTICHAIN.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_GBA_ANTICHAIN.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY3.epf",
+//			"buchiAutomizer/ncsb/ORIGINAL.epf",
+//			"buchiAutomizer/ncsb/SUNFLOWER-ORIGINAL.epf", //
+			"buchiAutomizer/ncsb/A-ORIGINAL.epf", // svcomp
+//			"buchiAutomizer/ncsb/ROSE-ORIGINAL.epf", //FA, NBA
+//			"buchiAutomizer/ncsb/DAISY-ORIGINAL.epf", //CAV 14
 	};
 
 	private static final String[] mCToolchains = {
-			// "BuchiAutomizerCInlineWithBlockEncoding.xml",
-			"BuchiAutomizerCInline.xml", 
+			 "BuchiAutomizerCInlineWithBlockEncoding.xml",
+//			"BuchiAutomizerCInline.xml", 
 		};
 
 	
@@ -186,7 +268,7 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
     
 	@Override
 	public Collection<UltimateTestCase> createTestCases() {
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectorySVCompNoCallReturn;
 		
 		
 		for (final DirectoryFileEndingsPair dfep : mPairsToTry) {
