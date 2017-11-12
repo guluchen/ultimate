@@ -32,6 +32,13 @@ package de.uni_freiburg.informatik.ultimate.ultimatetest.suites.traceabstraction
 
 import java.util.Collection;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collection;
+
 import de.uni_freiburg.informatik.ultimate.test.UltimateRunDefinition;
 import de.uni_freiburg.informatik.ultimate.test.UltimateTestCase;
 import de.uni_freiburg.informatik.ultimate.test.decider.ITestResultDecider;
@@ -268,8 +275,26 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
     
 	@Override
 	public Collection<UltimateTestCase> createTestCases() {
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectorySVCompNoCallReturn;
-		
+		int mNumberOfMachines = 1;
+                int mCurrentMachineNumber = 0;
+
+                try(BufferedReader br = new BufferedReader(new FileReader("machine.conf"))) {
+                    String line = br.readLine();
+                    mNumberOfMachines = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+                    line = br.readLine();
+                    mCurrentMachineNumber = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+
+                } catch (Exception e) {
+                        //use single machine
+                        mNumberOfMachines = 1;
+                        mCurrentMachineNumber = 0;
+                }
+
+                File infoFile = new File("Info.log");
+                if(infoFile.exists()) {
+                        infoFile.delete();
+                }
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
 		
 		for (final DirectoryFileEndingsPair dfep : mPairsToTry) {
 			for (final String toolchain : mCToolchains) {
@@ -278,7 +303,7 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
 						dfep.getOffset(), dfep.getLimit()));
 			}
 		}
-		return super.createTestCases();
+		return super.createTestCasesMultipleMachine(mNumberOfMachines,mCurrentMachineNumber,mSettings.length);		
 	}
 	// @formatter:on
 }
