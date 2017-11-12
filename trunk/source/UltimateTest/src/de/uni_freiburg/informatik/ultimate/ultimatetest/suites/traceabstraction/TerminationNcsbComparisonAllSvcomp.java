@@ -294,7 +294,7 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
                 if(infoFile.exists()) {
                         infoFile.delete();
                 }
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectorySVCompNoCallReturn;
 		
 		for (final DirectoryFileEndingsPair dfep : mPairsToTry) {
 			for (final String toolchain : mCToolchains) {
