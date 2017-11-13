@@ -58,7 +58,7 @@ public class TerminationNcsbComparisonSunflower extends AbstractBuchiAutomizerTe
 
 	// @formatter:off
 	private static final String STANDARD_DOT_C_PATTERN = ".*_false-termination.*\\.c|.*_true-termination.*\\.c";
-	private static final String STANDARD_DOT_I_PATTERN = ".*_false-termination.*\\.c.i|.*_true-termination.*\\.c.i";
+	private static final String STANDARD_DOT_I_PATTERN = ".*_false-termination.*\\.i|.*_true-termination.*\\.i";
 	
 	
 	private static final String[] NormalCases_product_lines={
@@ -364,6 +364,36 @@ public class TerminationNcsbComparisonSunflower extends AbstractBuchiAutomizerTe
 		new DirectoryFileEndingsPair("examples/svcomp/systemc/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
 		new DirectoryFileEndingsPair("examples/svcomp/seq-mthreaded/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
 };
+		
+	private static final DirectoryFileEndingsPair[] mDirectoryFileEndingsPairsNoCallsCases = {
+			/*** Subcategory  Termination-MainControlFlow ***/
+
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-lit/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-numeric/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-restricted-15/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-lit-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-restricted-15-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			
+			
+			/*** Subcategory  Termination-MainHeap ***/
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-libowfat/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-memory-alloca/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-memory-linkedlists/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-15/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+
+			/*** Subcategory  Termination-Other ***/
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/ntdrivers-simplified/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/ssh-simplified/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/locks/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/loop-lit/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/loop-invgen/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/product-lines/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/systemc/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/seq-mthreaded/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+	};
 	
 
 	private static final String[] mCurrentBugs = {};
