@@ -46,7 +46,7 @@ import de.uni_freiburg.informatik.ultimate.ultimatetest.suites.buchiautomizer.Ab
  * @author heizmann@informatik.uni-freiburg.de
  * 
  */
-public class TerminationNcsbComparison extends AbstractBuchiAutomizerTestSuite {
+public class TerminationNcsbComparisonSunflower extends AbstractBuchiAutomizerTestSuite {
 
 	/** Limit the number of files per directory. */
 
