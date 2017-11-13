@@ -407,7 +407,7 @@ public class TerminationNcsbComparisonRhododendron extends AbstractBuchiAutomize
 	@Override
 	public long getTimeout() {
 //		return Integer.MAX_VALUE;
-		return 900 * 1000;
+		return 300 * 1000;
 	}
 
 	/**
