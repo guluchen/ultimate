@@ -131,9 +131,9 @@ public class UtilFixedCounterexample<LETTER, STATE> {
         GetLassoRunFromLassoWord<LETTER, STATE> getter = new GetLassoRunFromLassoWord<>(services, automaton, word);
         NestedLassoRun<LETTER, STATE> run = getter.getNestedLassoRun();
         
-        if(run == null) {
-        	throw new UnsupportedOperationException("Wrong automaton for the difference");
-        }
+//        if(run == null) {
+//        	throw new UnsupportedOperationException("Wrong automaton for the difference");
+//        }
         return run;
 	}
 	
