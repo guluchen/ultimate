@@ -487,7 +487,7 @@ public class TerminationNcsbComparisonRhododendron extends AbstractBuchiAutomize
 			infoFile.delete();
 		}
 		
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairsNoCallsCases;
 		if(runOnlySelectedExample){
 			mPairsToTry=mDirectoryFileEndingsPairsForSelectedCases;
 		}

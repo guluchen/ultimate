@@ -486,7 +486,7 @@ public class TerminationNcsbComparisonSunflower extends AbstractBuchiAutomizerTe
 			infoFile.delete();
 		}
 		
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairsNoCallsCases;
 		if(runOnlySelectedExample){
 			mPairsToTry=mDirectoryFileEndingsPairsForSelectedCases;
 		}
