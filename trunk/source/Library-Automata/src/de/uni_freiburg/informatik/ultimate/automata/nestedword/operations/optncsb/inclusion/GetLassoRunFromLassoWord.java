@@ -35,12 +35,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import de.uni_freiburg.informatik.ultimate.automata.AutomataLibraryException;
 import de.uni_freiburg.informatik.ultimate.automata.AutomataLibraryServices;
 import de.uni_freiburg.informatik.ultimate.automata.AutomataOperationCanceledException;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.IGeneralizedNwaOutgoingLetterAndTransitionProvider;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.INestedWordAutomaton;
 
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.NestedWord;
+import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiAccepts;
+import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiIsEmpty;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiToGeneralizedBuchi;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.NestedLassoRun;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.NestedLassoWord;

@@ -95,7 +95,7 @@ public abstract class AbstractModelCheckerTestSuite extends UltimateTestSuite {
 			copy.add(mTestCases.get(j));
 		}
 		mTestCases.clear();
-		assert copy.size() > 1 : "No test case available";
+		assert copy.size() > 0 : "No test case available";
 		UltimateTestCase currTestCase = copy.get(0);
 		mTestCases.add(currTestCase);
 		for(int j = 1; j < copy.size(); j ++) {
@@ -106,6 +106,7 @@ public abstract class AbstractModelCheckerTestSuite extends UltimateTestSuite {
 				currTestCase = copy.get(j);
 			}
 		}
+
 		int i=0;
 		for (Iterator<?> it = mTestCases.iterator(); it.hasNext(); )
 	    {

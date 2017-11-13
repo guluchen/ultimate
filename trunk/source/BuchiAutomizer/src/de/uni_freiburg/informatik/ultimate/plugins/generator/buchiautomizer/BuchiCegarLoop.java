@@ -381,9 +381,16 @@ public class BuchiCegarLoop<LETTER extends IIcfgTransition<?>> {
 		mLogger.info("Minimize is " + mPref.getMinimization());
 
 		mIteration = 0;
-		mLogger.info("======== Iteration " + mIteration + "==of CEGAR loop == " + mName + "========");
+		mLogger.info("======== Iteration " + mIteration + " == of CEGAR loop == " + mName + " ========");
 
 		getInitialAbstraction();
+		
+//		if (mAbstraction.getVpAlphabet().getCallAlphabet().isEmpty() 
+//				&& mAbstraction.getVpAlphabet().getReturnAlphabet().isEmpty()) {
+//			assert false : "CORRECT AUTOMATON";
+//		} else {
+//			assert false : "CALL RETURN";
+//		}
 
 		if (mIteration <= mPref.watchIteration()
 				&& (mPref.artifact() == Artifact.ABSTRACTION || mPref.artifact() == Artifact.RCFG)) {
