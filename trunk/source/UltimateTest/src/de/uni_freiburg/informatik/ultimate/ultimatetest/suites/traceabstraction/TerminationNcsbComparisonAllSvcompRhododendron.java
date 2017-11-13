@@ -259,17 +259,20 @@ public class TerminationNcsbComparisonAllSvcompRhododendron extends AbstractBuch
 //			"buchiAutomizer/ncsb/A-ORIGINAL.epf", // svcomp
 //			"buchiAutomizer/ncsb/ROSE-ORIGINAL.epf", //FA, NBA
 //			"buchiAutomizer/ncsb/DAISY-ORIGINAL.epf", //CAV 14
-				       // sunflower setting
-//		       "buchiAutomizer/ncsb/SUNFLOWER_BA.epf",
-//		       "buchiAutomizer/ncsb/SUNFLOWER_BA_LAZYS.epf",
-//		       "buchiAutomizer/ncsb/SUNFLOWER_GBA_LAZYS.epf",
-//		       "buchiAutomizer/ncsb/SUNFLOWER_GBA_LAZYS_ANTICHAIN.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_BA.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_BA_LAZYS.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_GBA_ANTICHAIN.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_GBA.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_GBA_LAZYS.epf",
+//		    "buchiAutomizer/ncsb/SUNFLOWER_GBA_LAZYS_ANTICHAIN.epf",
 		
 		       // svcomp setting
-		       "buchiAutomizer/ncsb/RHODODENDRON_BA.epf",
-		       "buchiAutomizer/ncsb/RHODODENDRON_BA_LAZYS.epf",
-		       "buchiAutomizer/ncsb/RHODODENDRON_GBA_LAZYS.epf",
-		       "buchiAutomizer/ncsb/RHODODENDRON_GBA_LAZYS_ANTICHAIN.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_BA.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_BA_LAZYS.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_GBA_ANTICHAIN.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_GBA.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_GBA_LAZYS.epf",
+		    "buchiAutomizer/ncsb/RHODODENDRON_GBA_LAZYS_ANTICHAIN.epf",
 	};
 
 	private static final String[] mCToolchains = {
