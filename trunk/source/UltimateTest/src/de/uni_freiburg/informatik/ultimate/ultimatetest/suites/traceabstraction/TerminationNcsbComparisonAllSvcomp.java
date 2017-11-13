@@ -243,7 +243,7 @@ public class TerminationNcsbComparisonAllSvcomp extends AbstractBuchiAutomizerTe
 //			"buchiAutomizer/ncsb/INTSET_LAZY2-SAVE-AUT.epf",
 //			"buchiAutomizer/ncsb/INTSET_LAZY3-SAVE-AUT.epf",
 //			"buchiAutomizer/ncsb/INTSET_LAZY2.epf",
-//			"buchiAutomizer/ncsb/INTSET_LAZY3.epf",
+			"buchiAutomizer/ncsb/INTSET_LAZY.epf",
 //			"buchiAutomizer/ncsb/INTSET.epf",
 //			"buchiAutomizer/ncsb/SUNFLOWER-INTSET_LAZY.epf",
 //			"buchiAutomizer/ncsb/SUNFLOWER-INTSET
