@@ -225,7 +225,7 @@ public class TerminationNcsbComparisonAllSvcompSunflower extends AbstractBuchiAu
 	 */
 	@Override
 	public long getTimeout() {
-		return 900 * 1000;
+		return 300 * 1000;
 	}
 
 	/**
