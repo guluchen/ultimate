@@ -986,7 +986,7 @@ public class BuchiCegarLoop<LETTER extends IIcfgTransition<?>> {
 					gbaDiff = new GeneralizedDifference<>(new AutomataLibraryServices(mServices),
 							mStateFactoryForRefinement, gbaAbstraction, determinized, psd);
 			} else {
-				File file = new File("onlyBuchi");
+				File file = new File("machine.conf");
 				if(file.exists()) {
 					final FkvOptimization optimization = FkvOptimization.ELASTIC;
 					baDiff = new BuchiDifferenceFKV<LETTER, IPredicate>(
