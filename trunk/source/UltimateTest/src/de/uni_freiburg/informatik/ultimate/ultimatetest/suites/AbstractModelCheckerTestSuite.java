@@ -88,7 +88,13 @@ public abstract class AbstractModelCheckerTestSuite extends UltimateTestSuite {
 	 * Added by Yu-Fang Chen for performing experiments on multiple machines and fairly distributed the work load
 	 * 
 	 */
-	public Collection<UltimateTestCase> createTestCasesMultipleMachine(final int numberOfMachines, final int currentMachineNumber, int numberOfStrategies) {
+	public Collection<UltimateTestCase> createTestCasesMultipleMachine(int numberOfMachines, int currentMachineNumber, int numberOfStrategies) {
+
+		//hacked by Yu-Fang
+		numberOfMachines-=3;
+		currentMachineNumber-=2;
+		//end of hacking
+		
 		mTestCases.sort(null);
 		List<UltimateTestCase> copy = new ArrayList<>();
 		for(int j = 0; j < mTestCases.size(); j ++) {
