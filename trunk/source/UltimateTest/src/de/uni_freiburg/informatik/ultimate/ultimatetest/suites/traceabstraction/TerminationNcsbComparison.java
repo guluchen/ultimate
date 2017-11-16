@@ -376,9 +376,41 @@ public class TerminationNcsbComparison extends AbstractBuchiAutomizerTestSuite {
 	@Override
 	public long getTimeout() {
 //		return Integer.MAX_VALUE;
-		return 900 * 1000;
+		return 300 * 1000;
 	}
 
+	private static final DirectoryFileEndingsPair[] mDirectoryFileEndingsPairsNoCallsCases = {
+			/*** Subcategory  Termination-MainControlFlow ***/
+
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-lit/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-numeric/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-restricted-15/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-crafted-lit-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-restricted-15-todo/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			
+			
+			/*** Subcategory  Termination-MainHeap ***/
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-libowfat/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-memory-alloca/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-memory-linkedlists/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/termination-15/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+
+			/*** Subcategory  Termination-Other ***/
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/ntdrivers-simplified/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/ssh-simplified/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/locks/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/loop-lit/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/loop-invgen/", new String[]{ STANDARD_DOT_I_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/product-lines/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/systemc/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+			new DirectoryFileEndingsPair("examples/termination-no-call-return/seq-mthreaded/", new String[]{ STANDARD_DOT_C_PATTERN }, FILE_OFFSET, mFilesPerDirectoryLimit),
+	};	
+	
+	
+	
 	/**
 	 * List of path to setting files. Ultimate will run on each program with each setting that is defined here. The path
 	 * are defined relative to the folder "trunk/examples/settings/", because we assume that all settings files are in
@@ -455,7 +487,7 @@ public class TerminationNcsbComparison extends AbstractBuchiAutomizerTestSuite {
 			infoFile.delete();
 		}
 		
-		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairs;
+		DirectoryFileEndingsPair[] mPairsToTry=mDirectoryFileEndingsPairsNoCallsCases;
 		if(runOnlySelectedExample){
 			mPairsToTry=mDirectoryFileEndingsPairsForSelectedCases;
 		}
