@@ -55,10 +55,13 @@ import de.uni_freiburg.informatik.ultimate.automata.nestedword.NestedRun;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.NestedWord;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.NestedWordAutomaton;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.NestedWordAutomatonFilteredStates;
+import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.AbstractBuchiDifference;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiClosureNwa;
+import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiDifferenceFKV;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.BuchiIsEmpty;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.GeneralizedBuchiIsEmpty;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.NestedLassoRun;
+import de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.MultiOptimizationLevelRankingGenerator.FkvOptimization;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.operations.Difference;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.operations.IsDeterministic;
 import de.uni_freiburg.informatik.ultimate.automata.nestedword.operations.IsSemiDeterministic;
@@ -381,16 +384,9 @@ public class BuchiCegarLoop<LETTER extends IIcfgTransition<?>> {
 		mLogger.info("Minimize is " + mPref.getMinimization());
 
 		mIteration = 0;
-		mLogger.info("======== Iteration " + mIteration + " == of CEGAR loop == " + mName + " ========");
+		mLogger.info("======== Iteration " + mIteration + "==of CEGAR loop == " + mName + "========");
 
 		getInitialAbstraction();
-		
-//		if (mAbstraction.getVpAlphabet().getCallAlphabet().isEmpty() 
-//				&& mAbstraction.getVpAlphabet().getReturnAlphabet().isEmpty()) {
-//			assert false : "CORRECT AUTOMATON";
-//		} else {
-//			assert false : "CALL RETURN";
-//		}
 
 		if (mIteration <= mPref.watchIteration()
 				&& (mPref.artifact() == Artifact.ABSTRACTION || mPref.artifact() == Artifact.RCFG)) {
@@ -981,15 +977,25 @@ public class BuchiCegarLoop<LETTER extends IIcfgTransition<?>> {
 				new PowersetDeterminizer<>(determinized, true, mDefaultStateFactory);
 		Difference<LETTER, IPredicate> diff = null;
 		GeneralizedDifference<LETTER, IPredicate> gbaDiff = null;
+		AbstractBuchiDifference<LETTER, IPredicate> baDiff = null;
 		try {
 			IGeneralizedNwaOutgoingLetterAndTransitionProvider<LETTER, IPredicate> gbaAbstraction;
 			if (mAbstraction instanceof IGeneralizedNestedWordAutomaton) {
-				gbaAbstraction = (IGeneralizedNestedWordAutomaton<LETTER, IPredicate>) mAbstraction;
-				gbaDiff = new GeneralizedDifference<>(new AutomataLibraryServices(mServices),
-						mStateFactoryForRefinement, gbaAbstraction, determinized, psd);
+				
+					gbaAbstraction = (IGeneralizedNestedWordAutomaton<LETTER, IPredicate>) mAbstraction;
+					gbaDiff = new GeneralizedDifference<>(new AutomataLibraryServices(mServices),
+							mStateFactoryForRefinement, gbaAbstraction, determinized, psd);
 			} else {
-				diff = new Difference<>(new AutomataLibraryServices(mServices), mStateFactoryForRefinement,
+				final boolean onlyBuchi = true;
+				if(onlyBuchi) {
+					final FkvOptimization optimization = FkvOptimization.ELASTIC;
+					baDiff = new BuchiDifferenceFKV<LETTER, IPredicate>(
+							new AutomataLibraryServices(mServices), mStateFactoryForRefinement, mAbstraction,
+							determinized, psd, optimization, Integer.MAX_VALUE);
+				}else {
+					diff = new Difference<>(new AutomataLibraryServices(mServices), mStateFactoryForRefinement,
 						mAbstraction, determinized, psd, true);
+				}
 			}
 		} catch (final AutomataOperationCanceledException e) {
 			mBenchmarkGenerator.stop(CegarLoopStatisticsDefinitions.AutomataDifference.toString());
@@ -1016,7 +1022,10 @@ public class BuchiCegarLoop<LETTER extends IIcfgTransition<?>> {
 		// If no machine.conf file is in UltimateTest directory, then this flag is false
 		// by default, NO machine.conf
 		final boolean pldiDump = BenchmarkRecord.canDump();
-		if (gbaDiff == null) {
+		if(baDiff != null) {
+			mAbstraction = baDiff.getResult();
+			BenchmarkRecord.addComplementAutomaton(mIteration, baDiff.getSndComplemented().size(), 0);
+		}else if (gbaDiff == null) {
 			mAbstraction = diff.getResult();
 			if (pldiDump) {
 				BenchmarkRecord.addComplementAutomaton(mIteration, diff.getSecondComplemented().size(), 0);
