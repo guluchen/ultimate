@@ -90,10 +90,6 @@ public abstract class AbstractModelCheckerTestSuite extends UltimateTestSuite {
 	 */
 	public Collection<UltimateTestCase> createTestCasesMultipleMachine(int numberOfMachines, int currentMachineNumber, int numberOfStrategies) {
 
-		//hacked by Yu-Fang
-		numberOfMachines-=3;
-		currentMachineNumber-=2;
-		//end of hacking
 		
 		mTestCases.sort(null);
 		List<UltimateTestCase> copy = new ArrayList<>();
